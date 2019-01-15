@@ -14,7 +14,8 @@ const state = {};
 // SEARCH CONTROLLER
 const controlSearch = async () => {
     //1. Get the query from the view
-    const query = searchView.getInput();
+    //const query = searchView.getInput();
+    const query = 'pizza';
     console.log(query);
 
     if(query){
@@ -43,6 +44,12 @@ const controlSearch = async () => {
 };
 
 elements.searchForm.addEventListener('submit', e => {
+    e.preventDefault();
+    controlSearch();
+});
+
+//TESTING
+window.addEventListener('load', e => {
     e.preventDefault();
     controlSearch();
 });
