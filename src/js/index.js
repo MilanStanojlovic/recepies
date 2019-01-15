@@ -26,16 +26,21 @@ const controlSearch = async () => {
         searchView.clearResults();
         renderLoader(elements.searchResults);
 
-        //4. Search for recipes
-        await state.search.getResults();
-
-        //5. Render Results on UI
-        // console.log(state.search.result);
-        //-Removing the loader
-        clearLoader();
-        searchView.renderResults(state.search.result);
+        try{
+            //4. Search for recipes
+            await state.search.getResults();
+    
+            //5. Render Results on UI
+            // console.log(state.search.result);
+            //-Removing the loader
+            clearLoader();
+            searchView.renderResults(state.search.result);
+        }catch(error){
+            alert('Something went wrong with the searc...');
+            clearLoader();
+        }
     }
-}
+};
 
 elements.searchForm.addEventListener('submit', e => {
     e.preventDefault();
@@ -56,7 +61,36 @@ elements.searchResultPages.addEventListener('click', e => {
 
 
 // RECIPE CONTROLLER
+const controlRecipe = async () => {
+    //get ID from url
+    const id = window.location.hash.replace('#', '');
+    console.log(id);
 
-const r = new Recipe(46956);
-r.getRecipe();
-console.log(r);
+    if(id){
+        //1. Prepare UI for changes
+
+        //2. Create new recipe object
+        state.recipe = new Recipe(id);
+
+        try{
+            //3. Get recipe data
+            await state.recipe.getRecipe();
+    
+            //4. Calculate servings and time
+            state.recipe.calculateServings();
+            state.recipe.calculateTime();
+    
+            //5. Render recipe
+            console.log(state.recipe);
+
+        }catch (error){
+            alert('Error processing recipe.');
+        }
+    }
+};
+
+// window.addEventListener('hashchange', controlRecipe);
+// window.addEventListener('load', controlRecipe);
+
+//Array that loops over strings(event types) and calls eventListener
+['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
