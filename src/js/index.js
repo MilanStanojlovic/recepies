@@ -79,6 +79,8 @@ const controlRecipe = async () => {
         //2. Create new recipe object
         state.recipe = new Recipe(id);
 
+        //TESTING
+        window.r = state.recipe;
         try{
             //3. Get recipe data
             await state.recipe.getRecipe();

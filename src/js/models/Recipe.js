@@ -33,7 +33,7 @@ export default class Recipe{
     }
 
     parseIngredients(){
-        const unitsLong = ['tablespoons', 'tablespoon', 'ounce', 'ounces', 'teaspoon', 'teaspoons', 'cups', 'pounds'];
+        const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
         const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
 
         const newIngredients = this.ingredients.map(el => {
@@ -44,10 +44,34 @@ export default class Recipe{
             });
 
             //2. Remove parentheses
-            ingredient = ingredient.replace(/ *\([^)]*\) */g, '');
+            ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');
 
             //3.Parse ingredients into count, unit and ingredient
-            return ingredient;
+            const arrayIngredients = ingredient.split(' ');
+            const unitIndex = arrayIngredients.findIndex(el2 => unitsShort.include(el2));
+
+            let objIngredient;
+            if(unitIndex > -1){
+                //there is a unit
+
+            }else if(parseInt(arrayIngredients[0], 10)){
+                //there is no unit, but 1st element is number
+                objIngredient = {
+                    count: parseInt(arrayIngredients[0], 10),
+                    unit: '',
+                    ingredient: arrayIngredients.slice(1).join(' ')
+                }
+            }else if(unitIndex === -1){
+                //there is no unit and no number in 1st position
+                objIngredient = {
+                    count: 1,
+                    unit: '',
+                    ingredient
+                }
+            }
+
+            return objIngredient;
+            // return ingredient;
         });
         this.ingredients = newIngredients;
     }
