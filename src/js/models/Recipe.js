@@ -48,12 +48,26 @@ export default class Recipe{
 
             //3.Parse ingredients into count, unit and ingredient
             const arrayIngredients = ingredient.split(' ');
-            const unitIndex = arrayIngredients.findIndex(el2 => unitsShort.include(el2));
+            const unitIndex = arrayIngredients.findIndex(el2 => unitsShort.includes(el2));
 
             let objIngredient;
             if(unitIndex > -1){
                 //there is a unit
+                //Ex. 4 1/2 cups, arrCount is[4,12]  ---> eval('4+1/2') --> 4.5
+                //Ex. 4 cups, arrCount[4]
+                const arrCount = arrayIngredients.slice(0, unitIndex);
+                let count;
+                if(arrCount.length === 1){
+                    count = eval(arrayIngredients[0].replace('-', '+'));
+                }else {
+                    count = eval(arrayIngredients.slice(0, unitIndex).join('+'));
+                }
 
+                objIngredient = {
+                    count,
+                    unit: arrayIngredients[unitIndex],
+                    ingredient: arrayIngredients.slice(unitIndex + 1).join(' ')
+                };
             }else if(parseInt(arrayIngredients[0], 10)){
                 //there is no unit, but 1st element is number
                 objIngredient = {
