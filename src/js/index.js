@@ -18,7 +18,7 @@ window.state = state;
 const controlSearch = async () => {
     //1. Get the query from the view
     const query = searchView.getInput();
-    console.log(query);
+    // console.log(query);
 
     if(query){
         //2. New Search object and add to state
@@ -66,7 +66,7 @@ elements.searchResultPages.addEventListener('click', e => {
 const controlRecipe = async () => {
     //get ID from url
     const id = window.location.hash.replace('#', '');
-    console.log(id);
+    // console.log(id);
 
     if(id){
         //1. Prepare UI for changes
@@ -84,7 +84,7 @@ const controlRecipe = async () => {
         try{
             //3. Get recipe data and parse ingredients
             await state.recipe.getRecipe();
-            console.log(state.recipe.ingredients);
+            // console.log(state.recipe.ingredients);
             state.recipe.parseIngredients();
             
             //4. Calculate servings and time
@@ -136,7 +136,6 @@ elements.shoppingList.addEventListener('click', e => {
     }else if (e.target.matches('.shopping__count-value')){
         //read data
         const val = parseFloat(e.target.value, 10);
-        console.log(val);
         //update list count
         state.list.updateCount(id, val);
     }
