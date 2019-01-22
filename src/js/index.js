@@ -15,7 +15,6 @@ import { elements, renderLoader, clearLoader } from './views/base';
  * -Liked recipes
  */
 const state = {};
-window.state = state;
 // SEARCH CONTROLLER
 const controlSearch = async () => {
     //1. Get the query from the view
@@ -41,7 +40,7 @@ const controlSearch = async () => {
             clearLoader();
             searchView.renderResults(state.search.result);
         }catch(error){
-            alert('Something went wrong with the searc...');
+            alert('Something went wrong with the search.');
             clearLoader();
         }
     }
@@ -102,7 +101,7 @@ const controlRecipe = async () => {
                 );
 
         }catch (error){
-            console.log(error);
+            //console.log(error);
             alert('Error processing recipe.');
         }
     }
@@ -110,7 +109,6 @@ const controlRecipe = async () => {
 
 // window.addEventListener('hashchange', controlRecipe);
 // window.addEventListener('load', controlRecipe);
-
 //Array that loops over strings(event types) and calls eventListener
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
@@ -214,9 +212,5 @@ elements.recipe.addEventListener('click', e=>{
         //Like controller
         controlLike();
     }
-
     // console.log(state.recipe);
 });
-
-
-window.l = new List();
